@@ -1,0 +1,9 @@
+/*.suo
+/.nuget
+/TestResults
+/logs
+/packages
+bin/
+obj/
+*.user
+nsb_log*.txt

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using NsbServiceHostBasedGateway.Messages.Commands;
 using NsbServiceHostBasedGateway.Messages.Messages;
@@ -20,16 +22,20 @@ namespace NsbServiceHostBasedGateway.LocalSite
 
       // fake processing
       Thread.Sleep(250);
+
+      var sites = new List<string>(new[] {"RemoteSite"});
+      if ((new[] { '1', '2', '3', '4', '5', '6' }).Contains(message.Id.ToString().First()))
+        sites.Add("SecondRemoteSite"); 
       
-      // Send a new message to a remote site for other porcessing
-      Bus.SendToSites(new[] { "RemoteSite" }, new PrepareTransfer() {
+      // Send a new message to remote sites for further processing
+      Bus.SendToSites(sites, new PrepareTransfer() {
         Id = message.Id,
         Amount = message.Amount,
         Currency = message.Currency,
         Reference = message.Reference
       });
 
-      Console.WriteLine("Message sent to remote site");
+      Console.WriteLine("Message sent to {0} remote sites", sites.Count);
     }
 
     /// <summary>
@@ -38,9 +44,9 @@ namespace NsbServiceHostBasedGateway.LocalSite
     /// <param name="message">Message</param>
     public void Handle(TransferPrepared message)
     {
-      Console.WriteLine("Acknowlegment message for transfer '{0}' from remote site received", message.Id);
+      Console.WriteLine("Acknowlegment message for transfer '{0}' from remote site '{1}' received", message.Id, message.Receiver);
       Thread.Sleep(250);
-      Console.WriteLine("Acknowlegment message for transfer '{0}' processed", message.Id);
+      Console.WriteLine("Acknowlegment message for transfer '{0}' from remote site '{1}' processed", message.Id, message.Receiver);
     }
   }
 }

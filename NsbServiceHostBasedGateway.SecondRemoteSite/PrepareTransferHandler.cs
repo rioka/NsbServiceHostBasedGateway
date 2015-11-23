@@ -4,7 +4,7 @@ using System.Threading;
 using NsbServiceHostBasedGateway.Messages.Messages;
 using NServiceBus;
 
-namespace NsbServiceHostBasedGateway.RemoteSite
+namespace NsbServiceHostBasedGateway.SecondRemoteSite
 {
   public class PrepareTransferHandler : IHandleMessages<PrepareTransfer>
   {

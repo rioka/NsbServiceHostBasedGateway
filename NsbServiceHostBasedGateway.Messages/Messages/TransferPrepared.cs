@@ -11,5 +11,6 @@ namespace NsbServiceHostBasedGateway.Messages.Messages
   public class TransferPrepared
   {
     public Guid Id { get; set; }
+    public string Receiver { get; set; }
   }
 }
